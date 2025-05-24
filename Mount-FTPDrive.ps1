@@ -17,19 +17,17 @@ $theme = @{
         ProgressBar = [System.Drawing.Color]::FromArgb(45, 130, 210)
     }
 }
-$currentTheme = "Light"
 
 function Set-Theme($form, $themeName) {
     $pal = $theme[$themeName]
     $form.BackColor = $pal.BackColor
     foreach ($c in $form.Controls) {
+        if ($c -is [System.Windows.Forms.TextBox] -or $c -is [System.Windows.Forms.ComboBox] -or $c -is [System.Windows.Forms.CheckedListBox]) {
+            $c.BackColor = $pal.ControlColor
+        } else {
+            $c.BackColor = $pal.BackColor
+        }
         $c.ForeColor = $pal.ForeColor
-        if ($c -is [System.Windows.Forms.TextBox] -or $c -is [System.Windows.Forms.ComboBox]) {
-            $c.BackColor = $pal.ControlColor
-        }
-        if ($c -is [System.Windows.Forms.CheckedListBox]) {
-            $c.BackColor = $pal.ControlColor
-        }
     }
 }
 
@@ -51,18 +49,21 @@ $form.MaximizeBox = $false
 
 # --- Theme Toggle Button ---
 $btnTheme = New-Object System.Windows.Forms.Button
-$btnTheme.Text = "🌞 Light Mode"
+$btnTheme.Text = "🌚 Dark Mode"
 $btnTheme.Location = New-Object System.Drawing.Point(375, 8)
 $btnTheme.Size = New-Object System.Drawing.Size(110, 28)
 $form.Controls.Add($btnTheme)
 
+$currentTheme = "Light"
+Set-Theme $form $currentTheme  # Set default to Light Mode
+
 $btnTheme.Add_Click({
     if ($currentTheme -eq "Light") {
         $currentTheme = "Dark"
-        $btnTheme.Text = "🌚 Dark Mode"
+        $btnTheme.Text = "🌞 Light Mode"
     } else {
         $currentTheme = "Light"
-        $btnTheme.Text = "🌞 Light Mode"
+        $btnTheme.Text = "🌚 Dark Mode"
     }
     Set-Theme $form $currentTheme
 })
