@@ -1,4 +1,4 @@
-# 🗂️ Mount FTP BD Server – Windows PowerShell One-Liner by MrShadowRIFAT
+# 🗂️ Mount FTP BD Server
 
 **Easily mount popular BDIX FTP servers as a Windows drive in just a few clicks!**  
 Automated, no manual downloads, with a simple interactive menu.  
