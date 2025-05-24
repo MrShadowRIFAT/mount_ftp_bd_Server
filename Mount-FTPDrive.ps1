@@ -374,4 +374,63 @@ $btnRemoveFTP.Add_Click({
     $sel = $ftpListBox.SelectedIndex
     if ($sel -ge 0 -and $ftpList[$sel]) {
         # Only allow removing custom entries (not core)
-       
+        if ($coreFTPList.Name -contains $ftpList[$sel].Name) {
+            [System.Windows.Forms.MessageBox]::Show("Can't remove built-in server.", "Notice")
+        } else {
+            $ftpList = $ftpList[0..($sel-1)] + $ftpList[($sel+1)..($ftpList.Count-1)]
+            Save-Settings @{ FTPList = $ftpList }
+            Refresh-FTPList $ftpList $ftpListBox
+        }
+    }
+})
+
+# ========== Mount Button ========== #
+$btnMount.Add_Click({
+    $selectedIndices = $ftpListBox.CheckedIndices
+    if ($selectedIndices.Count -eq 0) { $logBox.AppendText("Select at least one FTP.`r`n"); return }
+    $drives = $txtDrives.Text.Split(",") | ForEach-Object { $_.Trim().ToUpper() }
+    if ($drives.Count -ne $selectedIndices.Count) { $logBox.AppendText("Assign a drive letter for each selected FTP.`r`n"); return }
+    $progress.Value = 5
+    if (-not (Ensure-RClone $logBox $progress)) { $logBox.AppendText("RClone failed.`r`n"); return }
+    if (-not (Ensure-WinFsp $logBox $progress)) { $logBox.AppendText("WinFsp failed.`r`n"); return }
+    $progress.Value = 80
+    for ($i=0; $i -lt $selectedIndices.Count; $i++) {
+        $idx = $selectedIndices[$i]
+        $ftp = $ftpList[$idx]
+        $driveLetter = $drives[$i]
+        if (-not $driveLetter -or $driveLetter.Length -ne 1 -or $driveLetter -notmatch '^[A-Z]$') {
+            $logBox.AppendText("Invalid drive letter: $driveLetter`r`n"); continue
+        }
+        if (-not (Is-DriveLetterFree $driveLetter)) {
+            $logBox.AppendText("Drive letter $driveLetter in use. Skipping.`r`n"); continue
+        }
+        Mount-FTP $ftp $driveLetter $chkReadOnly.Checked $txtFlags.Text $chkStartup.Checked $logBox
+    }
+    $progress.Value = 100
+    $trayIcon.ShowBalloonTip(2500, "Mount complete!", "Drive(s) mounted. Check Explorer.", [System.Windows.Forms.ToolTipIcon]::Info)
+    $progress.Value = 0
+})
+
+# ========== Unmount/Cleanup/Help Buttons ========== #
+$btnUnmount.Add_Click({
+    Unmount-AllDrives $logBox
+    $trayIcon.ShowBalloonTip(2000, "Unmounted", "All drives unmounted.", [System.Windows.Forms.ToolTipIcon]::Info)
+})
+
+$btnHelp.Add_Click({
+    [System.Windows.Forms.MessageBox]::Show(
+        "MrShadowRIFAT's FTP Drive Mounter`nVersion: Pro GUI`nMount BDIX FTPs as Windows drives easily.`n" +
+        "Website: https://rifat.website`nDiscord: https://discord.gg/5zpbhr3g84`n" +
+        "Steps:`n1. Tick FTP(s). 2. Enter drive letter(s). 3. Set options. 4. Click Mount.`n" +
+        "Supports auto-mount, custom FTP, read-only, and more.", "Help/About",
+        0, [System.Windows.Forms.MessageBoxIcon]::Information)
+})
+
+$btnCleanup.Add_Click({
+    Cleanup $logBox
+    [System.Windows.Forms.MessageBox]::Show("Cleanup complete.`nUninstall WinFsp from Control Panel manually if desired.", "Cleanup")
+})
+
+# ========== Show Form ========== #
+$form.Topmost = $true
+[void]$form.ShowDialog()
