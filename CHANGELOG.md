@@ -2,22 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2] - 2025-05-24
+## [1.3] - 2025-05-25
 ### Added
-- Multi-drive mount support
-- Download retry on failed downloads
-- Startup auto-mount option for each server
-- Version and update checker
-- Mount status check for drive letters
+- PowerShell WinForms GUI: tray minimize, notification balloons, dark/light mode toggle, and progress bar.
+- Modern user interface for drive mounting.
+- Visual feedback for mount and minimize events.
 
 ### Changed
-- Refined prompts and error messages
+- UI refinements for easier drive/FTP selection.
+
+---
+
+## [1.2] - 2025-05-24
+### Added
+- Multi-drive mount support (mount multiple FTPs to different letters in one go)
+- Download retry for RClone/WinFsp
+- Per-server auto-mount at startup
+- Script and dependency version check, update checker
+
+### Changed
+- Refined all prompts and error messages
 
 ---
 
 ## [1.1] - 2025-05-20
 ### Added
-- Initial PowerShell script for mounting BDIX FTP as Windows drive
-- Auto download and install of RClone and WinFsp
-- Menu-driven selection for FTP server and drive letter
-- Creates batch file on Desktop for easy remount
+- Original PowerShell script: mount BDIX FTP as Windows drive (single drive)
+- Auto-download/install of RClone and WinFsp
+- Interactive menu for server/drive selection
+- Desktop batch for easy remount
+
+---
+
+## [1.0] - 2025-05-18
+### Added
+- First internal release
