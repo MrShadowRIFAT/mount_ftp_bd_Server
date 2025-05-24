@@ -14,8 +14,11 @@ Created and maintained by [MrShadowRIFAT](https://rifat.website)
 - Easy text menu to select your preferred BDIX FTP server
 - Lets you pick your Windows drive letter
 - Remount your drive anytime via a batch file created on your Desktop
-
+  
 ---
+
+See [CHANGELOG.md](CHANGELOG.md) for latest updates and version history.
+
 
 ## ⚡ Quick Start (PowerShell One-Liner)
 
