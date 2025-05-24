@@ -230,7 +230,7 @@ function Ensure-RClone($logBox, $progress) {
         $zip = "$env:TEMP\rclone.zip"
         if (-not (Download-WithRetry $url $zip 3 2 $logBox $progress 15)) { return $false }
         Add-Type -AssemblyName System.IO.Compression.FileSystem
-        [System.IO.Compression.ZipFile]::ExtractToDirectory($zip, "C:\Program Files\rclone", $true)
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($zip, "C:\Program Files\rclone", [System.Text.Encoding]::UTF8)
         Remove-Item $zip -Force
         $logBox.AppendText("RClone installed.`r`n")
     } else {
