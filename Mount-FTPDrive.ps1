@@ -118,6 +118,6 @@ Set-Content -Path $ftpBat -Value $batContent
 Write-Host "`nLaunching FTP Drive mount in a new window..." -ForegroundColor Green
 Start-Process -FilePath $ftpBat
 
-Write-Host "`nDONE! You will see a new drive ($driveLetter:) in Explorer when mount is complete." -ForegroundColor Cyan
+Write-Host "`nDONE! You will see a new drive (${driveLetter}:) in Explorer when mount is complete." -ForegroundColor Cyan
 Write-Host "To mount again, just run ftp-mount.bat from your Desktop." -ForegroundColor Cyan
 Pause
