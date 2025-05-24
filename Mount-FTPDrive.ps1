@@ -121,3 +121,5 @@ Start-Process -FilePath $ftpBat
 Write-Host "`nDONE! You will see a new drive (${driveLetter}:) in Explorer when mount is complete." -ForegroundColor Cyan
 Write-Host "To mount again, just run ftp-mount.bat from your Desktop." -ForegroundColor Cyan
 Pause
+
+Pause
