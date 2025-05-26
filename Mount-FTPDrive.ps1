@@ -2,7 +2,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
-# ========== Theme1 ========== #
+# ========== Theme ========== #
 $theme = @{
     Dark = @{
         BackColor = [System.Drawing.Color]::FromArgb(40,44,52)
