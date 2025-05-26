@@ -243,7 +243,7 @@ function Ensure-RClone($logBox, $progress) {
 function Ensure-WinFsp($logBox, $progress) {
     $winfspReg = Get-ItemProperty -Path "HKLM:\SOFTWARE\WinFsp" -ErrorAction SilentlyContinue
     if (!$winfspReg) {
-        $url = "https://github.com/winfsp/winfsp/releases/latest/download/winfsp.msi"
+        $url = "https://github.com/winfsp/winfsp/releases/download/v2.0/winfsp-2.0.23075.msi"
         $msi = "$env:TEMP\winfsp.msi"
         if (-not (Download-WithRetry $url $msi 3 2 $logBox $progress 45)) { return $false }
         Start-Process msiexec.exe -Wait -ArgumentList "/i `"$msi`" /quiet /norestart"
